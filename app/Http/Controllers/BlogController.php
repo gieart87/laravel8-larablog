@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 use App\Models\Post;
 
@@ -30,6 +31,7 @@ class BlogController extends Controller
         $post = Post::activePost()
             ->with('user:id,name')
             ->with('categories:slug,name')
+            ->with('tags:slug,name')
             ->where('slug', $slug)
             ->firstOrFail();
 
@@ -38,5 +40,42 @@ class BlogController extends Controller
             'nextPost' => $post->next_post,
             'prevPost' => $post->prev_post,
         ]);
+    }
+
+    public function user($userId)
+    {
+        $posts = Post::activePost()
+            ->where('user_id', $userId)
+            ->with('user:id,name')
+            ->with('categories:slug,name')
+            ->get();
+
+        return Inertia::render('Blog/Index', ['posts' => $posts]);
+    }
+
+    public function category($slug)
+    {
+        $posts = Post::activePost()
+            ->whereHas('categories', function (Builder $query) use ($slug) {
+                $query->where('slug', $slug);
+            })
+            ->with('user:id,name')
+            ->with('categories:slug,name')
+            ->get();
+
+        return Inertia::render('Blog/Index', ['posts' => $posts]);
+    }
+
+    public function tag($slug)
+    {
+        $posts = Post::activePost()
+            ->whereHas('tags', function (Builder $query) use ($slug) {
+                $query->where('slug', $slug);
+            })
+            ->with('user:id,name')
+            ->with('categories:slug,name')
+            ->get();
+
+        return Inertia::render('Blog/Index', ['posts' => $posts]);
     }
 }

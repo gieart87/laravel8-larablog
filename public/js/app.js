@@ -3392,6 +3392,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['post', 'prevPost', 'nextPost'],
@@ -25559,9 +25565,30 @@ var render = function() {
   return _c("div", [
     _vm._m(0),
     _vm._v(" "),
-    _vm._m(1),
+    _c("header", { staticClass: "w-full container mx-auto" }, [
+      _c(
+        "div",
+        { staticClass: "flex flex-col items-center py-12" },
+        [
+          _c(
+            "inertia-link",
+            {
+              staticClass:
+                "font-bold text-gray-800 uppercase hover:text-gray-700 text-5xl",
+              attrs: { href: "/" }
+            },
+            [_vm._v("\n                Minimal Blog\n            ")]
+          ),
+          _vm._v(" "),
+          _c("p", { staticClass: "text-lg text-gray-600" }, [
+            _vm._v("\n                Lorem Ipsum Dolor Sit Amet\n            ")
+          ])
+        ],
+        1
+      )
+    ]),
     _vm._v(" "),
-    _vm._m(2),
+    _vm._m(1),
     _vm._v(" "),
     _c("div", { staticClass: "container mx-auto flex flex-wrap py-6" }, [
       _c(
@@ -25575,10 +25602,10 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm._m(3)
+      _vm._m(2)
     ]),
     _vm._v(" "),
-    _vm._m(4)
+    _vm._m(3)
   ])
 }
 var staticRenderFns = [
@@ -25653,28 +25680,6 @@ var staticRenderFns = [
           )
         ]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("header", { staticClass: "w-full container mx-auto" }, [
-      _c("div", { staticClass: "flex flex-col items-center py-12" }, [
-        _c(
-          "a",
-          {
-            staticClass:
-              "font-bold text-gray-800 uppercase hover:text-gray-700 text-5xl",
-            attrs: { href: "#" }
-          },
-          [_vm._v("\n                Minimal Blog\n            ")]
-        ),
-        _vm._v(" "),
-        _c("p", { staticClass: "text-lg text-gray-600" }, [
-          _vm._v("\n                Lorem Ipsum Dolor Sit Amet\n            ")
-        ])
-      ])
     ])
   },
   function() {
@@ -26749,7 +26754,26 @@ var render = function() {
           _vm._v(
             "\n                " + _vm._s(_vm.post.body) + "\n            "
           )
-        ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "text-blue-700 pt-4" },
+          [
+            _vm._l(_vm.post.tags, function(tag, index) {
+              return [
+                index > 0 ? [_vm._v(", ")] : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "inertia-link",
+                  { key: tag.slug, attrs: { href: "/tag/" + tag.slug } },
+                  [_vm._v(_vm._s(tag.name))]
+                )
+              ]
+            })
+          ],
+          2
+        )
       ])
     ]),
     _vm._v(" "),
