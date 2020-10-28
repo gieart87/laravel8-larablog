@@ -19,6 +19,12 @@
                 <div class="body">
                     {{ post.body }}
                 </div>
+                <div class="text-blue-700 pt-4">
+                    <template v-for="(tag, index) in post.tags">
+                        <template v-if="index > 0">, </template>
+                        <inertia-link :href="`/tag/${tag.slug}`" :key="tag.slug">{{ tag.name }}</inertia-link>
+                    </template>
+                </div>
             </div>
         </article>
 
