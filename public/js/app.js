@@ -2907,6 +2907,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -25013,6 +25016,16 @@ var render = function() {
                           fn: function() {
                             return [
                               _c(
+                                "jet-dropdown-link",
+                                { attrs: { href: "/posts" } },
+                                [
+                                  _vm._v(
+                                    "\n                                    Posts\n                                "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
                                 "div",
                                 {
                                   staticClass:
@@ -25602,10 +25615,52 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm._m(2)
+      _c(
+        "aside",
+        { staticClass: "w-full md:w-1/3 flex flex-col items-center px-3" },
+        [
+          _vm._m(2),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "w-full bg-white shadow flex flex-col my-4 p-6" },
+            [
+              _c("p", { staticClass: "text-xl font-semibold pb-5" }, [
+                _vm._v("Meta")
+              ]),
+              _vm._v(" "),
+              !_vm.$page.user
+                ? _c("ul", { staticClass: "list-disc pl-4" }, [
+                    _vm._m(3),
+                    _vm._v(" "),
+                    _vm._m(4)
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.$page.user
+                ? _c("ul", { staticClass: "list-disc pl-4" }, [
+                    _vm._m(5),
+                    _vm._v(" "),
+                    _c(
+                      "li",
+                      [
+                        _c(
+                          "inertia-link",
+                          { attrs: { href: "/logout", method: "post" } },
+                          [_vm._v("Logout")]
+                        )
+                      ],
+                      1
+                    )
+                  ])
+                : _vm._e()
+            ]
+          )
+        ]
+      )
     ]),
     _vm._v(" "),
-    _vm._m(3)
+    _vm._m(6)
   ])
 }
 var staticRenderFns = [
@@ -25784,36 +25839,52 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
-      "aside",
-      { staticClass: "w-full md:w-1/3 flex flex-col items-center px-3" },
+      "div",
+      { staticClass: "w-full bg-white shadow flex flex-col my-4 p-6" },
       [
+        _c("p", { staticClass: "text-xl font-semibold pb-5" }, [
+          _vm._v("About Us")
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "pb-2" }, [
+          _vm._v(
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas mattis est eu odio sagittis tristique. Vestibulum ut finibus leo. In hac habitasse platea dictumst."
+          )
+        ]),
+        _vm._v(" "),
         _c(
-          "div",
-          { staticClass: "w-full bg-white shadow flex flex-col my-4 p-6" },
-          [
-            _c("p", { staticClass: "text-xl font-semibold pb-5" }, [
-              _vm._v("About Us")
-            ]),
-            _vm._v(" "),
-            _c("p", { staticClass: "pb-2" }, [
-              _vm._v(
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas mattis est eu odio sagittis tristique. Vestibulum ut finibus leo. In hac habitasse platea dictumst."
-              )
-            ]),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass:
-                  "w-full bg-blue-800 text-white font-bold text-sm uppercase rounded hover:bg-blue-700 flex items-center justify-center px-2 py-3 mt-4",
-                attrs: { href: "#" }
-              },
-              [_vm._v("\n                    Get to know us\n                ")]
-            )
-          ]
+          "a",
+          {
+            staticClass:
+              "w-full bg-blue-800 text-white font-bold text-sm uppercase rounded hover:bg-blue-700 flex items-center justify-center px-2 py-3 mt-4",
+            attrs: { href: "#" }
+          },
+          [_vm._v("\n                    Get to know us\n                ")]
         )
       ]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [_c("a", { attrs: { href: "/login" } }, [_vm._v("Login")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("a", { attrs: { href: "/register" } }, [_vm._v("Register")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("a", { attrs: { href: "/dashboard" } }, [_vm._v("Dashboard")])
+    ])
   },
   function() {
     var _vm = this
