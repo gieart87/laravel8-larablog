@@ -19,12 +19,13 @@ use App\Http\Controllers\BlogController;
 //     return view('welcome');
 // });
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return Inertia\Inertia::render('Dashboard');
+})->name('dashboard');
+
 Route::get('/', [BlogController::class, 'index'])->name('blog_posts');
 Route::get('/{slug}', [BlogController::class, 'show'])->name('blog_post');
 Route::get('/user/{userId}', [BlogController::class, 'user'])->name('blog_user_posts');
 Route::get('/category/{slug}', [BlogController::class, 'category'])->name('blog_category_posts');
 Route::get('/tag/{slug}', [BlogController::class, 'tag'])->name('blog_tag_posts');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia\Inertia::render('Dashboard');
-})->name('dashboard');

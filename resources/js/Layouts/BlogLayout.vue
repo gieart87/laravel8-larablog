@@ -84,6 +84,17 @@
                         Get to know us
                     </a>
                 </div>
+                <div class="w-full bg-white shadow flex flex-col my-4 p-6">
+                    <p class="text-xl font-semibold pb-5">Meta</p>
+                    <ul class="list-disc pl-4" v-if="!$page.user">
+                        <li><a href="/login">Login</a></li>
+                        <li><a href="/register">Register</a></li>
+                    </ul>
+                    <ul class="list-disc pl-4" v-if="$page.user">
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li><inertia-link href="/logout" method="post">Logout</inertia-link></li>
+                    </ul>
+                </div>
             </aside>
 
         </div>
