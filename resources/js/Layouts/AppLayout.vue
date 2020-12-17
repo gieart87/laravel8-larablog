@@ -17,6 +17,9 @@
                             <jet-nav-link href="/dashboard" :active="$page.currentRouteName == 'dashboard'">
                                 Dashboard
                             </jet-nav-link>
+                            <jet-nav-link href="/posts" :active="$page.currentRouteName == 'posts.index'">
+                                Posts
+                            </jet-nav-link>
                         </div>
                     </div>
 
@@ -31,9 +34,6 @@
                                 </template>
 
                                 <template #content>
-                                    <jet-dropdown-link href="/posts">
-                                        Posts
-                                    </jet-dropdown-link>
                                     <!-- Account Management -->
                                     <div class="block px-4 py-2 text-xs text-gray-400">
                                         Manage Account
