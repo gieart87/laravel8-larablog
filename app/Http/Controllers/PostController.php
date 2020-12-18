@@ -13,7 +13,7 @@ class PostController extends Controller
     {
         $posts = Post::with('user:id,name')
             ->with('categories:slug,name')
-            ->get();
+            ->paginate(10);
         
         return Inertia::render('Posts/Index', ['posts' => $posts]);
     }
