@@ -11,6 +11,16 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+        'slug',
+        'post_type',
+        'published_at',
+        'status',
+        'body',
+        'user_id',
+    ];
+
     public const DRAFT = 0;
     public const ACTIVE = 1;
     public const INACTIVE = 2;
