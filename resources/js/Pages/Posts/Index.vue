@@ -13,6 +13,16 @@
                         <div class="mt-8 mb-8 text-2xl">
                             List of Posts
                         </div>
+                        <div class="mt-8 mb-8">
+                            <inertia-link :href="`/posts/create`" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">Create New Post</inertia-link>
+                        </div>
+                        <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md my-3" role="alert" v-if="$page.success.message">
+                            <div class="flex">
+                                <div>
+                                    <p class="text-sm">{{ $page.success.message }}</p>
+                                </div>
+                            </div>
+                        </div>
                         <table class="shadow-lg bg-white w-full">
                             <tr>
                                 <th class="bg-gray-200 border text-left px-8 py-4">Title</th>
