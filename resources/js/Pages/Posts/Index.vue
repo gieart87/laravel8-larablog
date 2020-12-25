@@ -28,11 +28,16 @@
                                 <th class="bg-gray-200 border text-left px-8 py-4">Title</th>
                                 <th class="bg-gray-200 border text-left px-8 py-4">Author</th>
                                 <th class="bg-gray-200 border text-left px-8 py-4">Published At</th>
+                                <th class="bg-gray-200 border text-left px-8 py-4" width="20%">Action</th>
                             </tr>
                             <tr v-for="post in posts.data" :key="post.id">
                                 <td class="border px-8 py-4">{{ post.title }}</td>
                                 <td class="border px-8 py-4">{{ post.user.name }}</td>
                                 <td class="border px-8 py-4">{{ post.published_at }}</td>
+                                <td class="border px-8 py-4">
+                                    <inertia-link :href="`/posts/${post.id}/edit`" v-show="$page.user.id == post.user_id" class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Edit</inertia-link>
+                                    <button @click="deletePost(post)" v-show="$page.user.id == post.user_id" class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded">Delete</button>
+                                </td>
                             </tr>
                         </table>
                         <div class="mt-8">

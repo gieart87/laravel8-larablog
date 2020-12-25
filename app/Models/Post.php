@@ -21,6 +21,10 @@ class Post extends Model
         'user_id',
     ];
 
+    protected $appends = [
+        'category_ids', 'tags_input'
+    ];
+
     public const DRAFT = 0;
     public const ACTIVE = 1;
     public const INACTIVE = 2;
@@ -83,5 +87,15 @@ class Post extends Model
             ->first();
         
         return $prevPost;
+    }
+
+    public function getCategoryIdsAttribute()
+    {
+        return $this->categories->pluck('id');
+    }
+
+    public function getTagsInputAttribute()
+    {
+        return implode(', ', $this->tags->pluck('name')->toArray());
     }
 }
