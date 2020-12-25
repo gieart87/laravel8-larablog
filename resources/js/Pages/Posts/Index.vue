@@ -59,5 +59,12 @@
             AppLayout,
             Pagination
         },
+        methods: {
+            deletePost(data) {
+                if (!confirm('Are you sure want to delete this?')) return;
+
+                this.$inertia.delete('/posts/' + data.id);
+            }
+        }
     }
 </script>
