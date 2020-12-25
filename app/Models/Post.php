@@ -22,7 +22,7 @@ class Post extends Model
     ];
 
     protected $appends = [
-        'category_ids', 'tags_input'
+        'category_ids', 'tags_input', 'tag_ids'
     ];
 
     public const DRAFT = 0;
@@ -97,5 +97,10 @@ class Post extends Model
     public function getTagsInputAttribute()
     {
         return implode(', ', $this->tags->pluck('name')->toArray());
+    }
+
+    public function getTagIdsAttribute()
+    {
+        return $this->tags->pluck('id');
     }
 }

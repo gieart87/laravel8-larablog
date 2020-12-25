@@ -3652,6 +3652,12 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_1__["default"],
     Pagination: _Shared_Pagination_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  methods: {
+    deletePost: function deletePost(data) {
+      if (!confirm('Are you sure want to delete this?')) return;
+      this.$inertia["delete"]('/posts/' + data.id);
+    }
   }
 });
 

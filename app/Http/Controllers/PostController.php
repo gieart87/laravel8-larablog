@@ -135,4 +135,17 @@ class PostController extends Controller
 
         return redirect('/posts')->with('message', 'Post update successfully.');
     }
+
+    public function destroy($id)
+    {
+        $post = Post::findOrFail($id);
+        if ($post->user_id != Auth::user()->id) {
+            return redirect('/posts')->with('message', 'You can not edit this post.');
+        }
+
+        $post->categories()->detach($post->category_ids);
+        $post->tags()->detach($post->tag_ids);
+        $post->delete();
+        return redirect('/posts')->with('message', 'Post deleted successfully.');
+    }
 }
