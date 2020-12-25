@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Str;
+use Auth;
 
 use App\Models\Post;
 use App\Models\Category;
@@ -28,7 +29,7 @@ class PostController extends Controller
     {
         $categories = Category::orderBy('name', 'asc')->get();
 
-        return Inertia::render('Posts/Create', ['categories' => $categories]);
+        return Inertia::render('Posts/Form', ['categories' => $categories]);
     }
 
     public function store(Request $request)
@@ -46,7 +47,7 @@ class PostController extends Controller
                 'array',
                 'min:2',
             ],
-            'tags' => [
+            'tags_input' => [
                 'string'
             ],
         ])->validate();
@@ -57,7 +58,7 @@ class PostController extends Controller
         $params['post_type'] = Post::POST;
         $params['status'] = Post::DRAFT;
         
-        $tags = explode(',', $params['tags']);
+        $tags = explode(',', $params['tags_input']);
         $tagIds = [];
         foreach ($tags as $tag) {
             $itemTag = Tag::where('name', trim($tag))->first();
@@ -74,5 +75,64 @@ class PostController extends Controller
         $post->tags()->attach($tagIds);
 
         return redirect('/posts')->with('message', 'Post created successfully.');
+    }
+
+    public function edit($id){
+        $post = Post::findOrFail($id);
+        $categories = Category::orderBy('name', 'asc')->get();
+
+        if ($post->user_id != Auth::user()->id) {
+            return redirect('/posts')->with('message', 'You can not edit this post.');
+        }
+
+        return Inertia::render('Posts/Form', [
+            'post' => $post,
+            'categories' => $categories, 
+        ]);
+    }
+
+    public function update(Request $request, $id) {
+        $post = Post::findOrFail($id);
+        if ($post->user_id != Auth::user()->id) {
+            return redirect('/posts')->with('message', 'You can not edit this post.');
+        }
+
+        Validator::make($request->all(), [
+            'title' => [
+                'required',
+                'string'
+            ],
+            'body' => [
+                'string'
+            ],
+            'category_ids' => [
+                'required',
+                'array',
+                'min:2',
+            ],
+            'tags_input' => [
+                'string'
+            ],
+        ])->validate();
+
+        $params = $request->all();
+
+        $tags = explode(',', $params['tags_input']);
+        $tagIds = [];
+        foreach ($tags as $tag) {
+            $itemTag = Tag::where('name', trim($tag))->first();
+
+            if (!$itemTag) {
+                $itemTag = Tag::create(['name' => trim($tag), 'slug' => Str::slug(trim($tag))]);
+            }
+
+            $tagIds[] = $itemTag->id;
+        }
+
+        $post->update($params);
+        $post->categories()->sync($params['category_ids']);
+        $post->tags()->sync($tagIds);
+
+        return redirect('/posts')->with('message', 'Post update successfully.');
     }
 }

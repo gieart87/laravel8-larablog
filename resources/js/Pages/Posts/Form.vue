@@ -11,7 +11,7 @@
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="p-6 sm:px-20 bg-white border-b border-gray-200 pb-20">
                         <div class="mt-8 mb-8 text-2xl">
-                            Create New Post
+                            {{ (post) ? 'Edit' : 'Create New' }} Post
                         </div>
                         <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md my-3" role="alert" v-if="$page.success.message">
                             <div class="flex">
@@ -43,7 +43,7 @@
                                     </div>
                                     <div class="mb-4">
                                         <label for="exampleFormControlInput1" class="block text-gray-700 text-sm font-bold mb-2">Tags:</label>
-                                        <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput1" placeholder="Enter Tags separate by Comma" v-model="form.tags">
+                                        <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput1" placeholder="Enter Tags separate by Comma" v-model="form.tags_input">
                                         <div v-if="$page.errors.tags" class="text-red-500">{{ $page.errors.tags[0] }}</div>
                                     </div>
                                 </div>
@@ -77,18 +77,25 @@
     import AppLayout from './../../Layouts/AppLayout'
 
     export default {
-        props: ['categories'],
+        props: ['categories', 'post'],
         components: {
             AppLayout
         },
         data() {
+            if (this.post) {
+                return {
+                    editMode: true,
+                    form: this.post,
+                }
+            }
+
             return {
                 editMode: false,
                 form: {
                     title: null,
                     body: null,
                     category_ids: [],
-                    tags: null,
+                    tags_input: null,
                 }
             }
         },
@@ -98,13 +105,17 @@
                     title: null,
                     body: null,
                     category_ids: [],
-                    tags: null,
+                    tags_input: null,
                 }
             },
             save(data) {
                 this.$inertia.post('/posts', data);
                 this.reset();
                 this.editMode = false;
+            },
+            update(data) {
+                this.$inertia.put('/posts/' + data.id, data);
+                this.editMode = true;
             }
         }
     }
