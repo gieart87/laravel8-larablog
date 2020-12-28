@@ -16,6 +16,11 @@ class Image extends Model
         'small',
     ];
 
+    public const UPLOAD_FOLDER = 'uploads/posts';
+    public const SMALL = '135x141';
+	public const MEDIUM = '312x400';
+	public const LARGE = '1000x600';
+
     public function imageable()
     {
         return $this->morphTo();

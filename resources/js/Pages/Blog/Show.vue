@@ -2,8 +2,8 @@
     <blog-layout>
         <article class="flex flex-col shadow my-4">
             <!-- Article Image -->
-            <a href="#" class="hover:opacity-75">
-                <img src="https://source.unsplash.com/collection/1346951/1000x500?sig=1">
+            <a href="#" class="hover:opacity-75" v-if="post.featured_image">
+                <img v-bind:src="post.featured_image"/>
             </a>
             <div class="bg-white flex flex-col justify-start p-6">
                 <div class="text-blue-700 text-sm font-bold uppercase pb-4">

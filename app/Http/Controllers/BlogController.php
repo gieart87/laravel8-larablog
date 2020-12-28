@@ -21,6 +21,7 @@ class BlogController extends Controller
         $posts = Post::activePost()
             ->with('user:id,name')
             ->with('categories:slug,name')
+            ->orderBy('published_at', 'desc')
             ->get();
 
         return Inertia::render('Blog/Index', ['posts' => $posts]);
