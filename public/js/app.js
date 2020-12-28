@@ -3536,9 +3536,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['categories', 'post'],
+  props: ['categories', 'post', 'statuses'],
   components: {
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
@@ -3556,7 +3566,9 @@ __webpack_require__.r(__webpack_exports__);
         title: null,
         body: null,
         category_ids: [],
-        tags_input: null
+        tags_input: null,
+        image: null,
+        status: null
       }
     };
   },
@@ -3569,14 +3581,41 @@ __webpack_require__.r(__webpack_exports__);
         tags_input: null
       };
     },
-    save: function save(data) {
+    save: function save(form) {
+      var data = new FormData();
+      data.append('title', form.title);
+      data.append('body', form.body);
+
+      for (var i = 0; i < form.category_ids.length; i++) {
+        data.append('category_ids[]', form.category_ids[i]);
+      }
+
+      data.append('tags_input', form.tags_input);
+      data.append('image', form.image);
+      data.append('status', form.status);
       this.$inertia.post('/posts', data);
       this.reset();
       this.editMode = false;
     },
-    update: function update(data) {
-      this.$inertia.put('/posts/' + data.id, data);
+    update: function update(form) {
+      var data = new FormData();
+      data.append('_method', 'put');
+      data.append('title', form.title);
+      data.append('body', form.body);
+
+      for (var i = 0; i < form.category_ids.length; i++) {
+        data.append('category_ids[]', form.category_ids[i]);
+      }
+
+      data.append('tags_input', form.tags_input);
+      data.append('image', form.image);
+      data.append('status', form.status);
+      this.$inertia.post('/posts/' + form.id, data);
       this.editMode = true;
+    },
+    onImageChange: function onImageChange(e) {
+      e.preventDefault();
+      this.form.image = e.target.files[0];
     }
   }
 });
@@ -26896,14 +26935,13 @@ var render = function() {
         "article",
         { key: post.id, staticClass: "flex flex-col shadow my-4" },
         [
-          _c("a", { staticClass: "hover:opacity-75", attrs: { href: "#" } }, [
-            _c("img", {
-              attrs: {
-                src:
-                  "https://source.unsplash.com/collection/1346951/1000x500?sig=1"
-              }
-            })
-          ]),
+          post.featured_image
+            ? _c(
+                "a",
+                { staticClass: "hover:opacity-75", attrs: { href: "#" } },
+                [_c("img", { attrs: { src: post.featured_image } })]
+              )
+            : _vm._e(),
           _vm._v(" "),
           _c(
             "div",
@@ -27014,13 +27052,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("blog-layout", [
     _c("article", { staticClass: "flex flex-col shadow my-4" }, [
-      _c("a", { staticClass: "hover:opacity-75", attrs: { href: "#" } }, [
-        _c("img", {
-          attrs: {
-            src: "https://source.unsplash.com/collection/1346951/1000x500?sig=1"
-          }
-        })
-      ]),
+      _vm.post.featured_image
+        ? _c("a", { staticClass: "hover:opacity-75", attrs: { href: "#" } }, [
+            _c("img", { attrs: { src: _vm.post.featured_image } })
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "bg-white flex flex-col justify-start p-6" }, [
         _c(
@@ -27583,6 +27619,81 @@ var render = function() {
                           _vm.$page.errors.tags
                             ? _c("div", { staticClass: "text-red-500" }, [
                                 _vm._v(_vm._s(_vm.$page.errors.tags[0]))
+                              ])
+                            : _vm._e()
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mb-4" }, [
+                          _c("input", {
+                            staticClass:
+                              "shadow appearance-none border rounded w-full",
+                            attrs: { type: "file" },
+                            on: { change: _vm.onImageChange }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mb-4" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass:
+                                "block text-gray-700 text-sm font-bold mb-2",
+                              attrs: { for: "status" }
+                            },
+                            [_vm._v("Status:")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form.status,
+                                  expression: "form.status"
+                                }
+                              ],
+                              staticClass:
+                                "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+                              attrs: { id: "status" },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form,
+                                    "status",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            _vm._l(_vm.statuses, function(status, status_key) {
+                              return _c(
+                                "option",
+                                {
+                                  key: status_key,
+                                  domProps: { value: status_key }
+                                },
+                                [_vm._v(_vm._s(status))]
+                              )
+                            }),
+                            0
+                          ),
+                          _vm._v(" "),
+                          _vm.$page.errors.status
+                            ? _c("div", { staticClass: "text-red-500" }, [
+                                _vm._v(_vm._s(_vm.$page.errors.status[0]))
                               ])
                             : _vm._e()
                         ])

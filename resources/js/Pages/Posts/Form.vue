@@ -46,6 +46,16 @@
                                         <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput1" placeholder="Enter Tags separate by Comma" v-model="form.tags_input">
                                         <div v-if="$page.errors.tags" class="text-red-500">{{ $page.errors.tags[0] }}</div>
                                     </div>
+                                    <div class="mb-4">
+                                        <input type="file" class="shadow appearance-none border rounded w-full" @change="onImageChange">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="status" class="block text-gray-700 text-sm font-bold mb-2">Status:</label>
+                                        <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="status" v-model="form.status">
+                                            <option v-for="(status, status_key) in statuses" :key="status_key" v-bind:value="status_key">{{ status }}</option>
+                                        </select>
+                                        <div v-if="$page.errors.status" class="text-red-500">{{ $page.errors.status[0] }}</div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -77,7 +87,7 @@
     import AppLayout from './../../Layouts/AppLayout'
 
     export default {
-        props: ['categories', 'post'],
+        props: ['categories', 'post', 'statuses'],
         components: {
             AppLayout
         },
@@ -96,6 +106,8 @@
                     body: null,
                     category_ids: [],
                     tags_input: null,
+                    image: null,
+                    status: null,
                 }
             }
         },
@@ -108,14 +120,45 @@
                     tags_input: null,
                 }
             },
-            save(data) {
-                this.$inertia.post('/posts', data);
-                this.reset();
-                this.editMode = false;
+            save(form) {
+                var data = new FormData()
+
+                data.append('title', form.title)
+                data.append('body', form.body)
+
+                for (var i = 0; i < form.category_ids.length; i++) {
+                    data.append('category_ids[]', form.category_ids[i])
+                }
+
+                data.append('tags_input', form.tags_input)
+                data.append('image', form.image)
+                data.append('status', form.status)
+
+                this.$inertia.post('/posts', data)
+                this.reset()
+                this.editMode = false
             },
-            update(data) {
-                this.$inertia.put('/posts/' + data.id, data);
+            update(form) {
+                var data = new FormData()
+
+                data.append('_method', 'put')
+                data.append('title', form.title)
+                data.append('body', form.body)
+
+                for (var i = 0; i < form.category_ids.length; i++) {
+                    data.append('category_ids[]', form.category_ids[i])
+                }
+
+                data.append('tags_input', form.tags_input)
+                data.append('image', form.image)
+                data.append('status', form.status)
+    
+                this.$inertia.post('/posts/' + form.id, data);
                 this.editMode = true;
+            },
+            onImageChange(e) {
+                e.preventDefault();
+                this.form.image = e.target.files[0];
             }
         }
     }

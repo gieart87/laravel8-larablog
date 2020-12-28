@@ -22,7 +22,7 @@ class Post extends Model
     ];
 
     protected $appends = [
-        'category_ids', 'tags_input', 'tag_ids'
+        'category_ids', 'tags_input', 'tag_ids', 'featured_image',
     ];
 
     public const DRAFT = 0;
@@ -102,5 +102,10 @@ class Post extends Model
     public function getTagIdsAttribute()
     {
         return $this->tags->pluck('id');
+    }
+
+    public function getFeaturedImageAttribute()
+    {
+        return $this->images->count() ? asset('storage/' . $this->images->first()->large) : '';
     }
 }
